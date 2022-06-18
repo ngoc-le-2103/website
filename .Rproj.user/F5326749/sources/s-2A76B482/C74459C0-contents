@@ -20,7 +20,7 @@ url_slides: ""
 url_video: ""
 ---
 
-My project is inspired by the the [big report](https://www.pewresearch.org/social-trends/2014/09/24/record-share-of-americans-have-never-married/#will-todays-never-married-adults-eventually-marry) from Pews Research Center on the decline marriage rates in the United States.
+My project is inspired by the the [big report](https://link-url-here.org) from Pews Research Center on the decline marriage in the United States.
 
 In this project I will show you how I plot the marriage rate overtime.
 ```{r}

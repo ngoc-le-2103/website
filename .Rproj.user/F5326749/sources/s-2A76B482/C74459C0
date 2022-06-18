@@ -1,26 +1,26 @@
 {
-    "id": "C149DAA0",
+    "id": "C74459C0",
     "path": "C:/Users/nle21/Classes/mas_yr2/Bmi525/website/website/content/project/internal/index.Rmd",
     "project_path": "content/project/internal/index.Rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "763097518",
     "contents": "",
     "dirty": false,
-    "created": 1655523188036.0,
+    "created": 1655536307220.0,
     "source_on_save": false,
-    "relative_order": 3,
+    "relative_order": 2,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "13,5",
-        "scrollLine": "2"
+        "cursorPosition": "24,70",
+        "scrollLine": "13"
     },
     "folds": "",
-    "lastKnownWriteTime": 1655523288,
+    "lastKnownWriteTime": 1655537087,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1655523288979,
+    "last_content_update": 1655537087489,
     "read_only": false,
     "read_only_alternatives": []
 }
