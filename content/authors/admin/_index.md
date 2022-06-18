@@ -3,45 +3,35 @@ bio: My research interests include distributed robotics, mobile computing and pr
   matter.
 education:
   courses:
-  - course: PhD in Artificial Intelligence
-    institution: Stanford University
-    year: 2012
-  - course: MEng in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2009
-  - course: BSc in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2008
+  - course: MS in Biostatistics
+    institution: Oregon Health and Science University
+    year: 2022
+  - course: BSc in Biology
+    institution: University of Oregon
+    year: 2020
 email: ""
 highlight_name: true
 interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+- Data Visualization
+- Clinical Trial
+- Cuasal Inference
 organizations:
-- name: Stanford University
-  url: https://www.stanford.edu/
-role: Professor of Artificial Intelligence
+- name: Oregon Health and Science University
+  url: https://www.ohsu.edu/
+role: Student in Biostatistics
 social:
 - icon: envelope
   icon_pack: fas
   link: /#contact
-- icon: twitter
-  icon_pack: fab
-  link: https://twitter.com/GeorgeCushen
-- icon: graduation-cap
-  icon_pack: fas
-  link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
 - icon: github
   icon_pack: fab
-  link: https://github.com/gcushen
+  link: https://github.com/ngoc-le-2103
 - icon: linkedin
   icon_pack: fab
-  link: https://www.linkedin.com/
+  link: https://www.linkedin.com/in/ngoc-le-4943488b/
 superuser: true
 title: Ngoc Le
 ---
 
 Hello World! I am a Biostatistics student. I have always had an interest in finding pattern and derive meaning from health related data. This blog is dedicated to my journey and projects in statistics and data visualizations. You are very welcome to join me on this journey, and I appreciate any constructive comments come my way.
 
-{{< icon name="download" pack="fas" >}} Download my {{< staticref "uploads/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.
