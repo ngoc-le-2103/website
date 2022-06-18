@@ -1,0 +1,247 @@
+---
+date: "2016-04-27T00:00:00Z"
+external_link: ""
+image:
+  caption: Photo by rawpixel on Unsplash
+  focal_point: Smart
+summary: Museum of Modern Art Tour.
+tags:
+- Deep Learning
+title: MoMA Lab
+url_code: ""
+url_pdf: ""
+url_slides: ""
+url_video: ""
+---
+
+
+
+<div id="workflow-for-lab-02" class="section level1">
+<h1>Workflow for Lab 02</h1>
+<p>The lab instructions can be found <a href="https://stevenbedrick.github.io/data-vis-labs-2022/02-moma.html">here</a>; we will work through its contents together via Webex. You will use this RMarkdown file as your workspace and final document. Don’t forget to update the “author” metadata field at the top of the file!</p>
+</div>
+<div id="start-by-loading-libraries" class="section level1">
+<h1>Start by Loading Libraries</h1>
+<pre class="r"><code>moma &lt;- read_csv(&quot;artworks-cleaned.csv&quot;)</code></pre>
+<pre><code>## Rows: 2253 Columns: 23
+## -- Column specification --------------------------------------------------------
+## Delimiter: &quot;,&quot;
+## chr  (6): title, artist, artist_bio, artist_gender, classification, department
+## dbl (10): artist_birth_year, artist_death_year, num_artists, n_female_artist...
+## lgl  (7): circumference_cm, diameter_cm, length_cm, seat_height_cm, purchase...
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div id="know-your-data" class="section level1">
+<h1>Know Your Data</h1>
+<div id="what-is-the-first-painting-that-was-acquired" class="section level2">
+<h2>What is the first painting that was acquired?</h2>
+<pre class="r"><code>moma %&gt;% 
+  select(artist, title, year_acquired) %&gt;% 
+  arrange(year_acquired)</code></pre>
+<pre><code>## # A tibble: 2,253 x 3
+##    artist            title                                         year_acquired
+##    &lt;chr&gt;             &lt;chr&gt;                                                 &lt;dbl&gt;
+##  1 Edward Hopper     House by the Railroad                                  1930
+##  2 Bernard Karfiol   Seated Nude                                            1930
+##  3 Pierre Roy        Daylight Savings Time                                  1931
+##  4 Preston Dickinson Plums on a Plate                                       1931
+##  5 Otto Dix          Dr. Mayer-Hermann                                      1932
+##  6 Paul Cézanne      The Bather                                             1934
+##  7 Paul Cézanne      Pines and Rocks (Fontainebleau?)                       1934
+##  8 Paul Cézanne      Still Life with Ginger Jar, Sugar Bowl, and ~          1934
+##  9 Paul Cézanne      Still Life with Apples                                 1934
+## 10 Arthur B. Davies  Italian Landscape                                      1934
+## # ... with 2,243 more rows</code></pre>
+</div>
+<div id="what-is-the-oldest-painting" class="section level2">
+<h2>What is the oldest painting?</h2>
+<pre class="r"><code>moma %&gt;% 
+  select(artist, title, year_created) %&gt;% 
+  arrange(year_created)</code></pre>
+<pre><code>## # A tibble: 2,253 x 3
+##    artist       title                                    year_created
+##    &lt;chr&gt;        &lt;chr&gt;                                           &lt;dbl&gt;
+##  1 Odilon Redon Landscape at Daybreak                            1872
+##  2 Odilon Redon Apache (Man on Horseback)                        1875
+##  3 Odilon Redon Apache (Man on Horseback II)                     1875
+##  4 Odilon Redon Fishing Boat                                     1875
+##  5 Odilon Redon Rocky Peak                                       1875
+##  6 Odilon Redon The Rocky Slope                                  1875
+##  7 Odilon Redon Landscape with Rocks, near Royan                 1875
+##  8 Paul Cézanne Still Life with Fruit Dish                       1879
+##  9 Paul Cézanne L&#39;Estaque                                        1879
+## 10 Claude Monet On the Cliff at Pourville, Clear Weather         1882
+## # ... with 2,243 more rows</code></pre>
+</div>
+<div id="how-many-artists" class="section level2">
+<h2>How many artists?</h2>
+<pre class="r"><code>moma %&gt;% 
+  distinct(artist)</code></pre>
+<pre><code>## # A tibble: 989 x 1
+##    artist           
+##    &lt;chr&gt;            
+##  1 Joan Miró        
+##  2 Paul Klee        
+##  3 Pablo Picasso    
+##  4 Arthur Dove      
+##  5 Francis Picabia  
+##  6 Blinky Palermo   
+##  7 Pierre Roy       
+##  8 Paul Cézanne     
+##  9 Enrico Prampolini
+## 10 Jankel Adler     
+## # ... with 979 more rows</code></pre>
+</div>
+<div id="which-artist-has-the-most-paintings" class="section level2">
+<h2>Which artist has the most paintings?</h2>
+<pre class="r"><code>moma %&gt;% 
+  count(artist, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 989 x 2
+##    artist               n
+##    &lt;chr&gt;            &lt;int&gt;
+##  1 Pablo Picasso       55
+##  2 Henri Matisse       32
+##  3 On Kawara           32
+##  4 Jacob Lawrence      30
+##  5 Batiste Madalena    25
+##  6 Jean Dubuffet       25
+##  7 Odilon Redon        25
+##  8 Ben Vautier         24
+##  9 Frank Stella        23
+## 10 Philip Guston       23
+## # ... with 979 more rows</code></pre>
+</div>
+<div id="how-many-paintings-by-gender" class="section level2">
+<h2>How many paintings, by gender?</h2>
+<pre class="r"><code>moma %&gt;% 
+  count(artist_gender)</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   artist_gender     n
+##   &lt;chr&gt;         &lt;int&gt;
+## 1 Female          252
+## 2 Male           1991
+## 3 &lt;NA&gt;             10</code></pre>
+</div>
+<div id="how-many-artists-by-gender" class="section level2">
+<h2>How many artists, by gender?</h2>
+<pre class="r"><code>moma %&gt;% 
+  count(artist_gender, artist) %&gt;% 
+  count(artist_gender)</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   artist_gender     n
+##   &lt;chr&gt;         &lt;int&gt;
+## 1 Female          143
+## 2 Male            837
+## 3 &lt;NA&gt;              9</code></pre>
+</div>
+<div id="in-which-years-were-the-most-paintings-in-the-collection-acquired" class="section level2">
+<h2>In which years were the most paintings in the collection <em>acquired</em>?</h2>
+<pre class="r"><code>moma %&gt;% 
+  count(year_acquired, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 88 x 2
+##    year_acquired     n
+##            &lt;dbl&gt; &lt;int&gt;
+##  1          1985    86
+##  2          1942    71
+##  3          1979    71
+##  4          1991    67
+##  5          2005    67
+##  6          1967    65
+##  7          2008    55
+##  8          1961    45
+##  9          1969    45
+## 10          1956    42
+## # ... with 78 more rows</code></pre>
+</div>
+<div id="in-which-years-were-the-most-paintings-in-the-collection-created" class="section level2">
+<h2>In which years were the most paintings in the collection <em>created</em>?</h2>
+<pre class="r"><code>moma %&gt;% 
+  count(year_created, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 139 x 2
+##    year_created     n
+##           &lt;dbl&gt; &lt;int&gt;
+##  1         1977    57
+##  2         1940    56
+##  3         1964    56
+##  4         1961    50
+##  5         1962    49
+##  6         1963    44
+##  7         1959    42
+##  8         1968    40
+##  9         1960    39
+## 10         1914    37
+## # ... with 129 more rows</code></pre>
+</div>
+<div id="what-about-the-first-painting-by-a-solo-female-artist" class="section level2">
+<h2>What about the first painting by a solo female artist?</h2>
+<pre class="r"><code>moma %&gt;% 
+  filter(num_artists == 1 &amp; n_female_artists == 1) %&gt;% 
+  select(title, artist, year_acquired, year_created) %&gt;% 
+  arrange(year_acquired)</code></pre>
+<pre><code>## # A tibble: 252 x 4
+##    title                           artist             year_acquired year_created
+##    &lt;chr&gt;                           &lt;chr&gt;                      &lt;dbl&gt;        &lt;dbl&gt;
+##  1 Landscape, 47                   Natalia Goncharova          1937         1912
+##  2 Shack                           Loren MacIver               1938         1934
+##  3 Hopscotch                       Loren MacIver               1940         1940
+##  4 Shadows with Painting           Irene Rice Pereira          1941         1940
+##  5 Figure                          Varvara Stepanova           1941         1921
+##  6 Still Life in Red               Amelia Peláez Del~          1942         1938
+##  7 White Lines                     Irene Rice Pereira          1942         1942
+##  8 Musical Squash                  Maud Morgan                 1942         1942
+##  9 Desolation                      Raquel Forner               1942         1942
+## 10 Self-Portrait with Cropped Hair Frida Kahlo                 1943         1940
+## # ... with 242 more rows</code></pre>
+</div>
+</div>
+<div id="basic-plotting" class="section level1">
+<h1>Basic Plotting!</h1>
+<div id="year-painted-vs.-year-acquired" class="section level2">
+<h2>Year painted vs. year acquired</h2>
+<pre class="r"><code>ggplot(moma, aes(year_created, year_acquired)) +
+  geom_point(alpha = .1, na.rm = TRUE) +
+  geom_abline(intercept = c(0,0), colour = &quot;red&quot;) +
+  labs(x = &quot;Year Painted&quot;, y = &quot;Year Acquired&quot;) +
+  ggtitle(&quot;MoMA Keeps Its Collection Current&quot;) </code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+</div>
+<div id="exploring-painting-dimensions" class="section level1">
+<h1>Exploring Painting Dimensions</h1>
+<div id="challenge-4" class="section level2">
+<h2>Challenge #4</h2>
+<pre class="r"><code>moma_dim &lt;- moma %&gt;% 
+  filter(height_cm &lt; 600, width_cm &lt; 760) %&gt;% 
+  mutate(hw_ratio = height_cm / width_cm,
+         hw_cat = case_when(
+           hw_ratio &gt; 1 ~ &quot;taller than wide&quot;,
+           hw_ratio &lt; 1 ~ &quot;wider than tall&quot;,
+           hw_ratio == 1 ~ &quot;perfect square&quot;
+         ))
+library(ggthemes)
+ggplot(moma_dim, aes(x = width_cm, y = height_cm, colour = hw_cat)) +
+  geom_point(alpha = .5) +
+  ggtitle(&quot;MoMA Paintings, Tall and Wide&quot;) +
+  scale_colour_manual(name = &quot;&quot;,
+                      values = c(&quot;gray50&quot;, &quot;#FF9900&quot;, &quot;#B14CF0&quot;)) +
+  theme_fivethirtyeight() +
+  theme(axis.title = element_text()) +
+  labs(x = &quot;Width&quot;, y = &quot;Height&quot;) </code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="different-colors" class="section level2">
+<h2>Different colors</h2>
+<pre class="r"><code>library(ggthemes)
+ggplot(moma_dim, aes(x = width_cm, y = height_cm, colour = hw_cat)) +
+  geom_point(alpha = .5) +
+  ggtitle(&quot;MoMA Paintings, Tall and Wide&quot;) +
+  scale_colour_manual(name = &quot;&quot;,
+                      values = c(&quot;gray50&quot;, &quot;#ee5863&quot;, &quot;#6999cd&quot;)) +
+  theme_fivethirtyeight() +
+  theme(axis.title = element_text()) +
+  labs(x = &quot;Width&quot;, y = &quot;Height&quot;) </code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+</div>
