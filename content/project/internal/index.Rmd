@@ -22,9 +22,86 @@ url_video: ""
 
 My project is inspired by the the [big report](https://www.pewresearch.org/social-trends/2014/09/24/record-share-of-americans-have-never-married/#will-todays-never-married-adults-eventually-marry) from Pews Research Center on the decline marriage rates in the United States.
 
-In this project I will show you how I plot the marriage rate overtime.
+In this project I will show you how I plot the marriage rate overtime by education level.
+
+I got my data from the github site of [fivethirtyeight](https://github.com/fivethirtyeight/data/tree/master/marriage)
 ```{r}
 library(tidyverse)
-library(dplyr)
 ```
 
+First I load the data and look at the variables in the dataset.
+```{r}
+both_sexes <- read.csv("both_sexes.csv")
+head(both_sexes)
+```
+I will then create a new dataset including only marriage rates related to education level, covert it to the long format and renaming education as well as age values.
+ 
+```{r}
+ both_sexes_reduced <- both_sexes %>%
+  select(year, HS_2534, SC_2534, BAp_2534, HS_3544, SC_3544, BAp_3544) %>%
+  pivot_longer(!year, names_to = "education", values_to = "rate") %>% 
+  separate(education, c('education', 'age')) %>%
+  mutate(rate = 1-rate) %>%
+  group_by(education, age) %>% 
+  arrange(education, year) %>%
+  mutate(change_b = rate - first(rate)) %>%
+  ungroup()
+
+both_sexes_reduced$education <- case_when(
+  both_sexes_reduced$education == "SC" ~ "Some college",
+  both_sexes_reduced$education == "HS" ~ "High school or less",
+  T ~ 'College graduates')
+both_sexes_reduced$education <- factor(both_sexes_reduced$education, 
+                                       levels = c("High school or less", "Some college", "College graduates"))
+
+both_sexes_reduced$age <- case_when(
+  both_sexes_reduced$age == "2534" ~ "Ages 25-34",
+  T ~ "Ages 35-44")
+
+both_sexes_reduced$age <- factor(
+  both_sexes_reduced$age, levels = c("Ages 25-34", "Ages 35-44"))  
+```
+
+Next I will plot the the portion of people who have never been married over time stratified by education level.
+
+```{r}
+library(wesanderson)
+age25_34 <- both_sexes_reduced %>% filter(age == "Ages 25-34") %>% mutate(rate = 1-rate)
+not_mar_plot <- ggplot(age25_34,
+                        aes(x = year,
+                            y = rate,
+                            color = education)) +
+  geom_line(size = 1.0) +
+  labs(y = "Portion",
+       x = "Year",
+       color = "Education") +
+  ggtitle("Portion of Never-Married Adults (Ages 25-34)") +
+  theme(axis.title = element_text(),
+        panel.grid.major = element_blank()) + 
+  scale_color_manual(values=wes_palette("GrandBudapest1"))
+not_mar_plot
+```
+
+From the graph above, we can see the portion of people who have never married is indeed increasing. One thing to note is that in 1960, the portion of never married for high school graduates category is the lowest, followed by some college and college graduates respectively. This pattern reverses in the 2010s where the portion of never married adults is the lowest among college graduates and highest among high school graduates or less.
+
+Next I will plot the baseline change of marriage rate since 1960 stratifying the age groups into two levels: ages 25-34 and ages 35-44
+
+```{r}
+mar_rate_plot <- ggplot(both_sexes_reduced,
+                        aes(x = year,
+                            y = change_b,
+                            color = education)) +
+  geom_line(size = 1.0) +
+  facet_wrap(vars(age)) +
+  labs(y = "Change in Marriage Rate",
+       x = "Year",
+       color = "Education") +
+  ggtitle("Marriage Rate Change since 1960") +
+  #theme_minimal() +
+  theme(axis.title = element_text(),
+        panel.grid.major = element_blank()) +
+  scale_color_manual(values=wes_palette("GrandBudapest1")) 
+mar_rate_plot
+```
+
+From the plot above, we can see that even though the marriage rate change is decreasing rapidly for ages 25-34, the decrease slopes are not as steep for ages 35-44. This suggests that overtime people are delaying their marriage to a later age. Therefore, the decline in marriage rates may not be a drastic as the Pews report makes it to be
