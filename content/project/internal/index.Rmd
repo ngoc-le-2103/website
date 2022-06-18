@@ -10,7 +10,7 @@ links:
   name: Follow
   url: https://twitter.com/georgecushen
 slides: example
-summary: An example of using the in-built project page.
+summary: Final project of plotting marriage rate over time by education level.
 tags:
 - Deep Learning
 title: Final project
@@ -20,4 +20,7 @@ url_slides: ""
 url_video: ""
 ---
 
+```{r}
+library(ggplot2)
+```
 
